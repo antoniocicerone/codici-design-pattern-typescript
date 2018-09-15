@@ -1,0 +1,6 @@
+{
+  "name": "nodemon",
+  "nodemonConfig": {
+    "ignore": ["test/*", "docs/*"]
+  }
+}

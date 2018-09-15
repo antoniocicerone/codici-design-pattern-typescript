@@ -1,0 +1,181 @@
+classe:
+
+https://yuml.me/diagram/scruffy/class/[%20;SIstemaSoftware;%20%7C%7C+paga()]
+
+interfaccia:
+[ ;«FiltroTemporale» ; ||+filtra(eventi:Array‹Evento›):Array‹Evento›]^-.-[;FiltraPerMese;||]
+
+[ ;«AllaCreazioneDellEvento» ; ||+monitora(e: Evento¸; eventi: Array‹Evento›): void]
+
+[ ;«FiltroTemporale» ; ||+filtra(eventi:Array‹Evento›):Array‹Evento›]<-.-[;FiltraPerMese;||],[ ;«FiltroTemporale» ; ||+filtra(eventi:Array‹Evento›):Array‹Evento›]<-.-[;FiltraUltimoAnno ;||]
+
+[ ;«Filtro» ; ||+filtra()]^-.-[;Filtro1;||]
+[ ;«Filtro» ; ||+filtra()]^-.-[;Filtro2;||]
+[ ;«Filtro» ; ||+filtra()]^-.-[;FiltraCombinato;||]
+
+due classi che implementano
+https://yuml.me/diagram/scruffy/class/[%20;%C2%ABMetodoDiPagamento%C2%BB;%20%7C%7C+paga(ammontare:%20number)]^-.-[%20;MetodoPagamentoPaypal;%20%7C%7C],[%20;%C2%ABMetodoDiPagamento%C2%BB;%20%7C%7C+paga(ammontare:%20number)]^-.-[%20;MetodoPagamentoConCarta;%20%7C%7C]
+
+https://yuml.me/diagram/scruffy/class/[%20;%C2%ABMotore%C2%BB;%20%7C%7C+aumentaPotenza();+diminuisciPotenza()]^-.-[%20;Motore1400;%20%7C%7C],[%20;%C2%ABMotore%C2%BB;%20%7C%7C+aumentaPotenza();+diminuisciPotenza()]^-.-[%20;Motore1600;%20%7C%7C]
+[ ;«Motore»; ||+aumentaPotenza();+diminuisciPotenza()]^-.-[ ;Motore1500; ||],[ ;«Motore»; ||+aumentaPotenza();+diminuisciPotenza()]^-.-[ ;Motore1900; ||]
+
+https://yuml.me/diagram/scruffy/class/[ ;«OperazioneSuEvneti‹T›»; ||+esegui(eventi:Array‹Evento›):T]^-.-[ ;CalcolaEventiNellUltimoMese; ||],[ ;«OperazioneSuEvneti‹T›»; ||+esegui(eventi:Array‹Evento›):T]^-.-[ ;CalcolaTotalePartecipantiNellUltimoMese; ||]
+
+
+classe che usa un riferimento
+
+[SistemaSoftware]--metodoDiPagamento%20%3E[%20;%C2%ABMetodoDiPagamento%C2%BB;%20%7C%7C+paga(ammontare:%20number)]
+
+[Automobile||+accelera();+frena()]motore-->[ ;«Motore»; ||+aumentaPotenza();+diminuisciPotenza()]
+
+[ ;«FiltroTemporale» ; ||+filtra(eventi:Array‹Evento›):Array‹Evento›]<-filtro-[;OperazioneNellUltimoMeseV4;||]
+
+
+[ ;«FiltroTemporale» ; ||+filtra(eventi:Array‹Evento›):Array‹Evento›]^-.-[;FiltroTemporaleGenerico;||+constructor(-dataInizio:Date¸;-dataFine:Date)]
+
+3 classi che implementano
+https://yuml.me/diagram/scruffy/class/[%20;%C2%ABMetodoDiPagamento%C2%BB;%20%7C%7C+paga(ammontare:%20number)]^-.-[%20;MetodoPagamentoPaypal;%20%7C%7C],[%20;%C2%ABMetodoDiPagamento%C2%BB;%20%7C%7C+paga(ammontare:%20number)]^-.-[%20;MetodoPagamentoConCarta;%20%7C%7C],[%20;%C2%ABMetodoDiPagamento%C2%BB;%20%7C%7C+paga(ammontare:%20number)]^-.-[%20;NuovoMetodoDiPagamento;%20%7C%7C]
+
+
+associazione:
+[;GestoreEventi; ||+aggiungiOsservatore(;o:AllaCreazioneDellEvento);;+rimuoviOsservatore(;o:AllaCreazioneDellEvento)]<>0..*osservatori->[ ;«AllaCreazioneDellEvento» ; ||+monitora(e: Evento; eventi: Array‹Evento›): void]
+
+
+[ ;«AllaCreazioneDellEvento» ; ||+monitora(e: Evento¸; eventi: Array‹Evento›): void]^-.-[;NotificaUtente;;||]
+[ ;«AllaCreazioneDellEvento» ; ||+monitora(e: Evento¸; eventi: Array‹Evento›): void]^-.-[;StampaStatisticaTotaleEventi;;||]
+
+[;GestoreEventi; ||]<>1-osservatori 0..*>[ ;«AllaCreazioneDellEvento» ; ||+monitora(e: Evento; eventi: Array‹Evento›): void]
+
+[ ;«OperazioneSuImmagini» ; ||+elabora(;immagine: Immagine): Immagine]^-.-[;TrasformaInBiancoENero;;||]
+
+[ ;«OperazioneSuImmagini» ; ||+elabora(;immagine: Immagine): Immagine]^-.-[;TagliaImmagine;;||]
+[ ;«OperazioneSuImmagini» ; ||+elabora(;immagine: Immagine): Immagine]^-.-[;TrasformaInBiancoENero;;||]
+
+
+[ ;«OperazioneSuImmagini» ; ||+elabora(;immagine: Immagine): Immagine;;+annullaOperazione(): Immagine]
+
+[;GestoreImmagini; ||+trasformaInBiancoENero(;immagine:Immagine): Immagine;; +taglia(selezione):Immagine;;+copia(selezione);;+incolla(selezione:Immagine):Immagine]
+
+[;TagliaImmagine; ||+constructor(selezione:Coordinate);;+elabora(;immagine: Immagine): Immagine]->[ ;«Coordinate» ; |+x1:number;+y1:number;+x2:number;+y2:number|]
+
+[;GestoreImmagini; ||+eseguiOperazione(;operazione:OperazioneSuImmagine¸;immagine: Immagine): Immagine]
+
+[;GestoreImmagini; ||+eseguiOperazione(;operazione:OperazioneSuImmagine¸;immagine: Immagine): Immagine;;+annullaOperazione()]<>->[ ;«OperazioneSuImmagini» ; ||+elabora(;immagine: Immagine): Immagine;;+annullaOperazione(): Immagine]
+
+[ ;«OperazioneSuImmagini» ; ||+elabora(;immagine: Immagine): Immagine;;+annullaOperazione(): Immagine]^-.-[;OperazioneAnnullabile;;||+elabora(immagine: Immagine): Immagine;;annullaOperazione(): Immagine;;~elaboraImmagine(immagine: Immagine)]
+
+
+
+--------------
+
+[;Mp3Player ; |;-stato = 'pausa';;|+premiTastoPlay()]
+
+[;Mp3Player ; |;;|+premiTastoPlay()]->[;«StatoMp3Player» ; ||+prossimoStato(): StatoMp3Player]
+
+[ ;«StatoMp3Player» ; ||+prossimoStato(): StatoMp3Player]^-.-[;Play ;;||+prossimoStato(): StatoMp3Player]
+[ ;«StatoMp3Player» ; ||+prossimoStato(): StatoMp3Player]^-.-[;Pausa ;;||+prossimoStato(): StatoMp3Player]
+
+[;Mp3Player ; |;;|+premiTastoPlay()]++stato->[;«StatoMp3Player» ; ||+prossimoStato(): StatoMp3Player]
+
+[ ;«Stato» ; ||+prossimoStato(): Stato]^-.-[;C; ||]
+[ ;«Stato» ; ||+prossimoStato(): Stato]^-.-[;B; ||]
+[ ;«Stato» ; ||+prossimoStato(): Stato]^-.-[;A; ||]
+
+[;MacchinaAStati ; |;;|+operazione()]++stato->[;«Stato» ; ||+prossimoStato(): Stato]
+
+
+[ ;«Stato» ; ||+prossimoStato(): Stato]^-.-[;B; ||]
+[ ;«Stato» ; ||+prossimoStato(): Stato]^-.-[;A; ||]
+[;B; ||]<-[;B; ||]
+
+
+-----------------
+
+[ ;«AttivitaSemplice» ; |+descrizione:string;+completata:boolean|]<>sottoAttivita->[ ;«Attivita» ; |+descrizione:string;+completata:boolean|]
+
+[ ;«Attivita» ; |+descrizione:string;|;+percentualeCompletamento():number;;]^-.-[;AttivitaFoglia; ||;+percentualeCompletamento(): number;;]
+[ ;«Attivita» ; |+descrizione:string;|;+percentualeCompletamento():number;;]^-.-[;AttivitaInterna; ||;+percentualeCompletamento(): number;;]
+[ ;«Attivita» ; |+descrizione:string;|;+percentualeCompletamento():number;;]<-sottoAttivita<>[;AttivitaInterna; ||;+percentualeCompletamento(): number;;]
+
+[ ;«Nodo» ; |+descrizione:string;|;+operazione();;]^-.-[;Foglia; ||;+operazione();;]
+[ ;«Nodo» ; |+descrizione:string;|;+operazione();;]^-.-[;NodoInterno; ||;+operazione();;]
+[ ;«Nodo» ; |+descrizione:string;|;+operazione();;]<-figli<>[;NodoInterno; ||;+operazione();;]
+
+
+
+------------------------
+
+[ ;«MacchinarioPerCreareMotori»; ||+creaMotore():Motore;]^-.-[ ;CreaMotore1500; ||+creaMotore():Motore;]
+[ ;«MacchinarioPerCreareMotori»; ||+creaMotore():Motore;]^-.-[ ;CreaMotoreComplicato; ||+creaMotore():Motore;]
+[ ;CreaMotoreComplicato; ||+creaMotore():Motore;]-[note: new MotoreComplicato;(pistoniSpeciali;¸bullonispeciali)]
+
+[ ;«Factory»; ||+creaIstanza():Istanza;]^-.-[ ;CreaIstanzaConcretaC; ||+creaIstanza():Istanza;]
+[ ;«Factory»; ||+creaIstanza():Istanza;]^-.-[ ;CreaIstanzaConcretaB; ||+creaIstanza():Istanza;]
+[ ;«Factory»; ||+creaIstanza():Istanza;]^-.-[ ;CreaIstanzaConcretaA; ||+creaIstanza():Istanza;]
+
+[ ;«CreatoreMotori»; ||+creaMotoreDiesel():Motore;+creaMotoreBenzina():Motore;+creaMotoreElettrico():Motore;]
+
+
+-----------------------
+
+
+[ ;«OperazioneMatematica»; ||+esegui(num1:number;¸num2:number):number;]^-.-[ ;Somma; ||+esegui(num1:number;¸num2:number):number;]
+[ ;«OperazioneMatematica»; ||+esegui(num1:number;¸num2:number):number;]^-.-[ ;LogOperazione; ||+esegui(num1:number;¸num2:number):number;]
+[ ;«OperazioneMatematica»; ||+esegui(num1:number;¸num2:number):number;]<->-1++[ ;LogOperazione; ||+esegui(num1:number;¸num2:number):number;]
+
+[ ;«X»; ||+x();]^-.-[ ;SoggettoReale; ||+x();]
+[ ;«X»; ||+x();]^-.-[ ;Proxy; ||+x();]
+[ ;«X»; ||+x();]<->-1++[ ;Proxy; ||+x();]
+
+[ ;«OperazioneMatematica»; ||+esegui(num1:number;¸num2:number):number;]^-.-[ ;Somma; ||+esegui(num1:number;¸num2:number):number;]
+[ ;«OperazioneMatematica»; ||+esegui(num1:number;¸num2:number):number;]^-.-[ ;Adattatore; ||+esegui(num1:number;¸num2:number):number;]
+[ ;OperazioneDiSistemaEsterno; ||+esegui():number;]<->-1++[ ;Adattatore; ||+esegui(num1:number;¸num2:number):number;]
+
+
+[ ;FinestraBase; ||+disegna();]^-[ ;FinestraConTitolo; ||+disegna();]
+[ ;FinestraConTitolo; ||+disegna();]-[note: ...istruzioni di disegno...;super.disegna()]
+[ ;FinestraBase; ||+disegna();]^-[ ;FinestraConBarraScorrimento; ||+disegna();]
+[ ;FinestraBase; ||+disegna();]^-[ ;FinestraConFooter; ||+disegna();]
+
+[ ;«Finestra»; ||+disegna();]^-.-[ ;FinestraBase; ||+disegna();]
+[ ;«Finestra»; ||+disegna();]^-.-[ ;FinestraComposita; ||+disegna();~disegnoSpecifico()]
+[ ;FinestraComposita; ||+disegna();]-[note: this.disegnoSpecifico();this.finestra.disegna()]
+[ ;«Finestra»; ||+disegna();]<->-1++[ ;FinestraComposita; ||+disegna();]
+[ ;FinestraComposita; ||+disegna();]^-[ ;FinestraConTitolo; ||disegnoSpecifico();]
+[ ;FinestraComposita; ||+disegna();]^-[ ;FinestraConFooter; ||disegnoSpecifico();]
+
+
+
+[ ;Area; |-aree:Array‹Area›;-stanze:Array‹Stanza›|+aggiungiArea(a:Area);+aggiungiStatza(s:Stanza)]<>-[ ;Stanza; ||+aggiungiTavolo(t:Tavolo);]
+[ ;Area; ||+aggiungiArea(a:Area);+aggiungiStatza(s:Stanza)]<>-[ ;Area; ||+aggiungiArea(a:Area);+aggiungiStatza(s:Stanza)]
+
+[ ;«Superficie»; ||+getTavoli():Array‹Tavolo›;]^-.-[ ;Stanza; ||+aggiungiTavolo(t:Tavolo);+getTavoli():Array‹Tavolo›;]
+[ ;«Superficie»; ||+getTavoli():Array‹Tavolo›;]^-.-[ ;Area; |-superfici:Array‹Superficie›;|+aggiungiSuperficie(s:Superficie);+getTavoli():Array‹Tavolo›]
+[ ;Area; |-superfici:Array‹Superficie›;|+aggiungiSuperficie(s:Superficie);+getTavoli():Array‹Tavolo›]<>-[ ;«Superficie»; ||+getTavoli():Array‹Tavolo›;]
+[ ;Stanza; ||+aggiungiTavolo(t:Tavolo);+getTavoli():Array‹Tavolo›;]<>-[;Tavolo; ||]
+
+
+
+
+[;«OsservatoreTavolo»; ||+osserva(t: Tavolo¸; r: Ristorante)]^-.-[;NotificaGestore; ||+osserva(t: Tavolo¸; r: Ristorante)]
+[;«OsservatoreTavolo»; ||+osserva(t: Tavolo¸; r: Ristorante)]^-.-[;StampaPercentualeTavoliLiberi; ||+osserva(t: Tavolo¸; r: Ristorante)]
+[;Ristorante; ||]<>--[;«OsservatoreTavolo»; ||+osserva(t: Tavolo¸; r: Ristorante)]
+
+
+
+-------------------------------------
+
+[ ;«Robot»; ||;]^-.-[ ;RobotDriver; ||;]
+[ ;RobotDriver; ||;]-[note: SINGLETON{bg:cornsilk}]
+[ ;«StatoRobot»; ||+eseguiAzione(r: Robot¸a: AzioneRobot);+cambiaStato():StatoRobot;]<->-1++[ ;RobotDriver; ||;]
+[ ;«StatoRobot»; ||+eseguiAzione(r: Robot¸a: AzioneRobot);+cambiaStato():StatoRobot;]^-.-[ ;RobotAttivo; ||;]
+[ ;«StatoRobot»; ||+eseguiAzione(r: Robot¸a: AzioneRobot);+cambiaStato():StatoRobot;]^-.-[ ;RobotInCarica; ||;]
+[ ;RobotInCarica; ||;]
+
+
+
+
+
+
+
+
